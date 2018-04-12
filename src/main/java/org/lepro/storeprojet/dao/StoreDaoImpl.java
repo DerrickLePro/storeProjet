@@ -1,16 +1,21 @@
 package org.lepro.storeprojet.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Commande;
+import org.lepro.storeprojet.entities.LigneCommande;
 import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
+import org.lepro.storeprojet.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StoreDaoImpl implements StoreDao {
 
 	@Autowired
@@ -119,15 +124,21 @@ public class StoreDaoImpl implements StoreDao {
 		Users u = usersRepository.getOne(usersID);
 		u.getRoles().add(r);
 		roleRepository.save(r);
-		usersRepository.save(u);
 
 	}
 
 	@Override
 	public Commande enregistrerCommande(Panier p, Client c) {
 		clientRepository.save(c);
-
-		return null;
+		Commande commande = new Commande();
+		commande.setDateCommande(DateUtils.convertDateToLocalDateTime(new Date()));
+		commande.setItems(p.getItems());
+		commande.setClient(c);
+		for (LigneCommande lc : p.getItems()) {
+			lcRepository.save(lc);
+		}
+		commandeRepository.save(commande);
+		return commande;
 	}
 
 	@Override
@@ -135,6 +146,12 @@ public class StoreDaoImpl implements StoreDao {
 		clientRepository.save(c);
 		return c.getIdClient();
 
+	}
+
+	@Override
+	public List<Client> listClient() {
+		// TODO Auto-generated method stub
+		return clientRepository.findAll();
 	}
 
 }
