@@ -13,6 +13,8 @@ import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
 import org.lepro.storeprojet.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,7 +50,7 @@ public class StoreDaoImpl implements StoreDao {
 	@Override
 	public Categorie getCategorie(Long idCat) {
 		// TODO Auto-generated method stub
-		return categorieRepository.getOne(idCat);
+		return categorieRepository.findByIdC(idCat);
 	}
 
 	@Override
@@ -99,7 +101,7 @@ public class StoreDaoImpl implements StoreDao {
 	@Override
 	public Produit getProduit(Long idP) {
 		// TODO Auto-generated method stub
-		return produitRepository.getOne(idP);
+		return produitRepository.findByIdC(idP);
 	}
 
 	@Override
@@ -152,6 +154,30 @@ public class StoreDaoImpl implements StoreDao {
 	public List<Client> listClient() {
 		// TODO Auto-generated method stub
 		return clientRepository.findAll();
+	}
+
+	@Override
+	public Page<Produit> searchProduit(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return produitRepository.chercher(mc, pageable);
+	}
+
+	@Override
+	public Page<Categorie> searchCategorie(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return categorieRepository.chercher(mc, pageable);
+	}
+
+	@Override
+	public Page<Client> searchClient(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return clientRepository.chercher(mc, pageable);
+	}
+
+	@Override
+	public Client getClient(Long idCl) {
+		// TODO Auto-generated method stub
+		return clientRepository.findByIdC(idCl);
 	}
 
 }

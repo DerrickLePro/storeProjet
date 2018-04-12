@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface CategorieRepository extends JpaRepository<Categorie, Long> {
 
-	@Query("select p from Categorie p where p.designation like :x or p.nomCategorie like :x")
+	@Query("select p from Categorie p where p.description like :x or p.nomCategorie like :x")
 	public Page<Categorie> chercher(@Param("x") String mc, Pageable pageable);
+
+	@Query("select c from Categorie c where c.idCategorie = :x ")
+	public Categorie findByIdC(@Param("x") Long idCl);
 }

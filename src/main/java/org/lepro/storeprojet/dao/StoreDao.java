@@ -9,6 +9,8 @@ import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface StoreDao {
 
@@ -46,5 +48,13 @@ public interface StoreDao {
 
 	public Long ajouterClient(Client c);
 
+	public Client getClient(Long idCl);
+
 	public List<Client> listClient();
+
+	public Page<Produit> searchProduit(String mc, Pageable pageable);
+
+	public Page<Categorie> searchCategorie(String mc, Pageable pageable);
+
+	public Page<Client> searchClient(String mc, Pageable pageable);
 }

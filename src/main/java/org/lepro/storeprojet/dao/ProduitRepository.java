@@ -21,4 +21,7 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
 
 	@Query("select p from Produit p where p.designation like :x or p.description like :x")
 	public Page<Produit> chercher(@Param("x") String mc, Pageable pageable);
+
+	@Query("select p from Produit p where p.idProduit = :x ")
+	public Produit findByIdC(@Param("x") Long idCl);
 }

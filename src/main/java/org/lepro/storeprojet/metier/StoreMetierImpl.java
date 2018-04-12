@@ -11,6 +11,8 @@ import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -130,6 +132,30 @@ public class StoreMetierImpl implements IAdminMetier {
 	public List<Client> listClient() {
 		// TODO Auto-generated method stub
 		return dao.listClient();
+	}
+
+	@Override
+	public Page<Produit> searchProduit(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return dao.searchProduit(mc, pageable);
+	}
+
+	@Override
+	public Page<Categorie> searchCategorie(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return dao.searchCategorie(mc, pageable);
+	}
+
+	@Override
+	public Page<Client> searchClient(String mc, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return dao.searchClient(mc, pageable);
+	}
+
+	@Override
+	public Client getClient(Long idCl) {
+		// TODO Auto-generated method stub
+		return dao.getClient(idCl);
 	}
 
 }

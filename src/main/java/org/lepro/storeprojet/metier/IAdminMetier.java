@@ -7,6 +7,8 @@ import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IAdminMetier extends InternauteMetier {
 
@@ -28,5 +30,9 @@ public interface IAdminMetier extends InternauteMetier {
 
 	public Long ajouterClient(Client c);
 
+	public Client getClient(Long idCl);
+
 	public List<Client> listClient();
+
+	public Page<Client> searchClient(String mc, Pageable pageable);
 }

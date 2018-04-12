@@ -7,6 +7,8 @@ import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Commande;
 import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface InternauteMetier {
 
@@ -25,5 +27,9 @@ public interface InternauteMetier {
 	public Produit getProduit(Long idP);
 
 	public Commande enregistrerCommande(Panier p, Client c);
+
+	public Page<Produit> searchProduit(String mc, Pageable pageable);
+
+	public Page<Categorie> searchCategorie(String mc, Pageable pageable);
 
 }
