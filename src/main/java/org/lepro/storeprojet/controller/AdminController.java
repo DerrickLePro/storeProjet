@@ -1,7 +1,9 @@
 package org.lepro.storeprojet.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Produit;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -32,6 +35,8 @@ public class AdminController {
 
 	@Autowired
 	IAdminMetier metier;
+
+	private Logger logger = Logger.getLogger(AdminController.class);
 
 	/**
 	 * Client
@@ -113,7 +118,14 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/category/add", method = RequestMethod.POST)
-	public Long ajouterCategorie(@RequestBody Categorie c) {
+	public Long ajouterCategorie(@RequestParam("file") MultipartFile file, @RequestBody Categorie c) {
+		try {
+			logger.debug(file.getOriginalFilename());
+			c.setPhoto(file.getBytes());
+			c.setNomPhoto(file.getOriginalFilename());
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
 		return metier.ajouterCategorie(c);
 	}
 
