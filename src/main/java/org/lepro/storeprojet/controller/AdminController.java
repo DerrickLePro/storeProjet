@@ -1,9 +1,18 @@
 package org.lepro.storeprojet.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger; 
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Produit;
@@ -13,12 +22,14 @@ import org.lepro.storeprojet.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -118,16 +129,26 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/category/add", method = RequestMethod.POST)
-	public Long ajouterCategorie(@RequestParam("file") MultipartFile file, @RequestBody Categorie c) {
-		try {
-			logger.debug(file.getOriginalFilename());
+	public Long ajouterCategorie(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
+		Categorie c = new Categorie();
+		if(!file.isEmpty()){ 
+		try { 
+			BufferedImage bi = ImageIO.read(file.getInputStream());
 			c.setPhoto(file.getBytes());
-			c.setNomPhoto(file.getOriginalFilename());
+			c.setNomPhoto(file.getOriginalFilename()); 
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			System.out.println(e.getMessage());
 		}
+		} else System.out.println("Pas d'image !!");
+		c.setNomCategorie(name);
+		c.setDescription(description);
 		return metier.ajouterCategorie(c);
 	}
+	@RequestMapping(value="/photoCat/{idCat}", produces=MediaType.IMAGE_JPEG_VALUE, method = RequestMethod.GET)
+ public byte[]	photoCategorie(@PathVariable Long idCat) throws IOException{
+	   Categorie c = metier.getCategorie(idCat);
+	 return IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto()));
+ }
 
 	@RequestMapping(value = "/category/{id}", method = RequestMethod.DELETE)
 	public boolean delecteCategorie(@PathVariable Long id) {
@@ -168,4 +189,18 @@ public class AdminController {
 	public void attribRole(@RequestBody Role r, @PathVariable Long idUsr) {
 		metier.attribuerRole(r, idUsr);
 	}
+	
+	 private static String encodeFileToBase64Binary(MultipartFile file){
+         String encodedfile = null;
+         try {
+			byte[] encoded = Base64.getEncoder().encode(file.getBytes());
+			encodedfile = encoded.toString();
+			System.out.println(encodedfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+         return encodedfile;
+     }
 }
