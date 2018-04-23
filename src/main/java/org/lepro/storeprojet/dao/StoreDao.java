@@ -5,6 +5,7 @@ import java.util.List;
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Commande;
+import org.lepro.storeprojet.entities.Image;
 import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
@@ -57,4 +58,6 @@ public interface StoreDao {
 	public Page<Categorie> searchCategorie(String mc, Pageable pageable);
 
 	public Page<Client> searchClient(String mc, Pageable pageable);
+	
+	public Long saveImage(Image img);
 }

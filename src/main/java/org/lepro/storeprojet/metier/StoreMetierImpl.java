@@ -6,6 +6,7 @@ import org.lepro.storeprojet.dao.StoreDao;
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Commande;
+import org.lepro.storeprojet.entities.Image;
 import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
@@ -156,6 +157,12 @@ public class StoreMetierImpl implements IAdminMetier {
 	public Client getClient(Long idCl) {
 		// TODO Auto-generated method stub
 		return dao.getClient(idCl);
+	}
+
+	@Override
+	public Long saveImage(Image img) {
+		// TODO Auto-generated method stub
+		return dao.saveImage(img);
 	}
 
 }

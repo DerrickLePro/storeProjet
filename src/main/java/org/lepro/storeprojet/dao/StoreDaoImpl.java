@@ -6,6 +6,7 @@ import java.util.List;
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Commande;
+import org.lepro.storeprojet.entities.Image;
 import org.lepro.storeprojet.entities.LigneCommande;
 import org.lepro.storeprojet.entities.Panier;
 import org.lepro.storeprojet.entities.Produit;
@@ -34,6 +35,8 @@ public class StoreDaoImpl implements StoreDao {
 	private RoleRepository roleRepository;
 	@Autowired
 	private ClientRepository clientRepository;
+	@Autowired
+	private ImageRepository imageRepository;
 
 	@Override
 	public Long ajouterCategorie(Categorie c) {
@@ -178,6 +181,12 @@ public class StoreDaoImpl implements StoreDao {
 	public Client getClient(Long idCl) {
 		// TODO Auto-generated method stub
 		return clientRepository.findByIdC(idCl);
+	}
+
+	@Override
+	public Long saveImage(Image img) {
+		imageRepository.save(img);
+		return img.getIdPhoto();
 	}
 
 }

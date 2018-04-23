@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -21,9 +23,9 @@ public class Categorie implements Serializable {
 	@Size(min = 4, max = 45)
 	private String nomCategorie;
 	private String description;
-	@Lob
-	private byte[] photo;
-	private String nomPhoto;
+	@OneToOne
+	@JoinColumn(name = "image_id")
+	private Image photo;
 	@OneToMany(mappedBy = "categorie")
 	private Collection<Produit> listProduits;
 
@@ -32,12 +34,10 @@ public class Categorie implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Categorie(String nomCategorie, String description, byte[] photo, String nomPhoto) {
+	public Categorie(String nomCategorie, String description) {
 		super();
 		this.nomCategorie = nomCategorie;
-		this.description = description;
-		this.photo = photo;
-		this.nomPhoto = nomPhoto;
+		this.description = description; 
 	}
 
 	public Long getIdCategorie() {
@@ -64,20 +64,14 @@ public class Categorie implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
+	
+
+	public Image getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(Image photo) {
 		this.photo = photo;
-	}
-
-	public String getNomPhoto() {
-		return nomPhoto;
-	}
-
-	public void setNomPhoto(String nomPhoto) {
-		this.nomPhoto = nomPhoto;
 	}
 
 	public Collection<Produit> getListProduits() {

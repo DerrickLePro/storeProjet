@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
+import org.lepro.storeprojet.entities.Image;
 import org.lepro.storeprojet.entities.Produit;
 import org.lepro.storeprojet.entities.Role;
 import org.lepro.storeprojet.entities.Users;
@@ -35,4 +36,6 @@ public interface IAdminMetier extends InternauteMetier {
 	public List<Client> listClient();
 
 	public Page<Client> searchClient(String mc, Pageable pageable);
+	
+	public Long saveImage(Image img);
 }

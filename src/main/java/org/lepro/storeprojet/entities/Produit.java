@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -24,8 +25,10 @@ public class Produit implements Serializable {
 	private String description;
 	private double prix;
 	private boolean selected;
-	private String photo;
 	private int quantity;
+	@OneToOne
+	@JoinColumn(name = "image_id")
+	private Image photo;
 	@ManyToOne
 	@JoinColumn(name = "categorie_id")
 	private Categorie categorie;
@@ -70,13 +73,7 @@ public class Produit implements Serializable {
 		this.selected = selected;
 	}
 
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
+	
 
 	public int getQuantity() {
 		return quantity;
@@ -99,16 +96,25 @@ public class Produit implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Produit(String designation, String description, double prix, boolean selected, String photo, int quantity,
+	public Produit(String designation, String description, double prix, boolean selected, int quantity,
 			Categorie categorie) {
 		super();
 		this.designation = designation;
 		this.description = description;
 		this.prix = prix;
 		this.selected = selected;
-		this.photo = photo;
 		this.quantity = quantity;
 		this.categorie = categorie;
 	}
+
+	public Image getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Image photo) {
+		this.photo = photo;
+	}
+	
+	
 
 }

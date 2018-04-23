@@ -129,26 +129,19 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/category/add", method = RequestMethod.POST)
-	public Long ajouterCategorie(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
-		Categorie c = new Categorie();
-		if(!file.isEmpty()){ 
-		try { 
-			BufferedImage bi = ImageIO.read(file.getInputStream());
-			c.setPhoto(file.getBytes());
-			c.setNomPhoto(file.getOriginalFilename()); 
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-		} else System.out.println("Pas d'image !!");
-		c.setNomCategorie(name);
-		c.setDescription(description);
+	public Long ajouterCategorie(@RequestBody Categorie c) {
+		    System.out.println(c.getDescription());
+		     System.out.println(c.getPhoto().getNomPhoto());
+		     metier.saveImage(c.getPhoto());
 		return metier.ajouterCategorie(c);
 	}
-	@RequestMapping(value="/photoCat/{idCat}", produces=MediaType.IMAGE_JPEG_VALUE, method = RequestMethod.GET)
- public byte[]	photoCategorie(@PathVariable Long idCat) throws IOException{
-	   Categorie c = metier.getCategorie(idCat);
-	 return IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto()));
- }
+//	@RequestMapping(value="/photoCat/{idCat}", produces=MediaType.IMAGE_JPEG_VALUE, method = RequestMethod.GET)
+// public byte[]	photoCategorie(@PathVariable Long idCat) throws IOException{
+//	   Categorie c = metier.getCategorie(idCat);
+//	   System.out.println(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto())));
+//	   System.out.println(org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto()))));
+//	 return org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto())));
+// }
 
 	@RequestMapping(value = "/category/{id}", method = RequestMethod.DELETE)
 	public boolean delecteCategorie(@PathVariable Long id) {
