@@ -12,7 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger; 
+import org.apache.log4j.Logger;
 import org.lepro.storeprojet.entities.Categorie;
 import org.lepro.storeprojet.entities.Client;
 import org.lepro.storeprojet.entities.Produit;
@@ -104,6 +104,9 @@ public class AdminController {
 
 	@RequestMapping(value = "/product/add", method = RequestMethod.POST)
 	public Long ajouterProduit(@RequestBody Produit p) {
+		System.out.println(p.getDescription());
+		System.out.println(p.getPhoto().getNomPhoto());
+		metier.saveImage(p.getPhoto());
 		return metier.ajouterProduit(p, p.getCategorie().getIdCategorie());
 	}
 
@@ -130,18 +133,25 @@ public class AdminController {
 
 	@RequestMapping(value = "/category/add", method = RequestMethod.POST)
 	public Long ajouterCategorie(@RequestBody Categorie c) {
-		    System.out.println(c.getDescription());
-		     System.out.println(c.getPhoto().getNomPhoto());
-		     metier.saveImage(c.getPhoto());
+		System.out.println(c.getDescription());
+		System.out.println(c.getPhoto().getNomPhoto());
+
+		metier.saveImage(c.getPhoto());
 		return metier.ajouterCategorie(c);
 	}
-//	@RequestMapping(value="/photoCat/{idCat}", produces=MediaType.IMAGE_JPEG_VALUE, method = RequestMethod.GET)
-// public byte[]	photoCategorie(@PathVariable Long idCat) throws IOException{
-//	   Categorie c = metier.getCategorie(idCat);
-//	   System.out.println(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto())));
-//	   System.out.println(org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto()))));
-//	 return org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new ByteArrayInputStream(c.getPhoto())));
-// }
+	// @RequestMapping(value="/photoCat/{idCat}",
+	// produces=MediaType.IMAGE_JPEG_VALUE, method = RequestMethod.GET)
+	// public byte[] photoCategorie(@PathVariable Long idCat) throws
+	// IOException{
+	// Categorie c = metier.getCategorie(idCat);
+	// System.out.println(IOUtils.toByteArray(new
+	// ByteArrayInputStream(c.getPhoto())));
+	// System.out.println(org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new
+	// ByteArrayInputStream(c.getPhoto()))));
+	// return
+	// org.apache.tomcat.util.codec.binary.Base64.encodeBase64(IOUtils.toByteArray(new
+	// ByteArrayInputStream(c.getPhoto())));
+	// }
 
 	@RequestMapping(value = "/category/{id}", method = RequestMethod.DELETE)
 	public boolean delecteCategorie(@PathVariable Long id) {
@@ -182,10 +192,10 @@ public class AdminController {
 	public void attribRole(@RequestBody Role r, @PathVariable Long idUsr) {
 		metier.attribuerRole(r, idUsr);
 	}
-	
-	 private static String encodeFileToBase64Binary(MultipartFile file){
-         String encodedfile = null;
-         try {
+
+	private static String encodeFileToBase64Binary(MultipartFile file) {
+		String encodedfile = null;
+		try {
 			byte[] encoded = Base64.getEncoder().encode(file.getBytes());
 			encodedfile = encoded.toString();
 			System.out.println(encodedfile);
@@ -194,6 +204,6 @@ public class AdminController {
 			e.printStackTrace();
 		}
 
-         return encodedfile;
-     }
+		return encodedfile;
+	}
 }
